@@ -38,7 +38,7 @@
     try {
         await conn.insert("insert into user(name) values('jiangyy2')");
         await conn.insert("insert into user(name) values('jiangyy2')");
-        await conn.rollback();
+        await conn.commit();
     } catch (e) {
         await conn.rollback();
         throw e;
@@ -47,5 +47,73 @@
     }
     ```
 
-### TODO
-- 单元测试
+### 使用案例
+
+#### 根据主键ID, 查询一条记录
+```javascript
+async function selectOneById() {
+    let res = await repository.selectOneById(1);
+    assert.ok(res != undefined, "获取一条记录失败");
+}
+
+```
+
+#### 查询一条记录
+```javascript
+async function selectOne() {
+    let res = await repository.selectOne("select * from user where id=:id", {id: 1});
+    assert.ok(res != undefined, "获取一条记录失败");
+}
+```
+
+#### 查询列表
+```javascript
+async function selectList() {
+    let res = await repository.selectList("select * from user where name=:name", {name: "jiangyy"});
+    console.log(res);
+    assert.ok(res.length !== 0, "获取列表失败");
+
+    let res2 = await repository.selectList("select * from user where name=:name limit :start,:limit", {
+        name: "jiangyy",
+        start: 0,
+        limit: 1
+    });
+    console.log(res2)
+    assert.ok(res2.length !== 0, "获取分页列表失败");
+}
+```
+
+#### 插入
+```javascript
+async function insert() {
+    let id = await userRepository.insert("insert into user(name, age) values(:name,:age)", {
+        name: "张三",
+        age: 30
+    });
+    console.log("Got insert id: " + id);
+    assert.ok(id > 0, "插入测试失败");
+}
+```
+
+#### 修改
+```javascript
+async function update() {
+    let affectedRows = await userRepository.update("update user set age=:age where name=:name", {
+        name: "张三",
+        age: 40
+    });
+    console.log("Got update affected rows: " + affectedRows);
+    assert.ok(affectedRows > 0, "更新测试失败");
+}
+```
+
+#### 删除
+```javascript
+async function remove() {
+    let affectedRows = await userRepository.delete("delete from user where name=:name", {
+        name: "张三"
+    });
+    console.log("Got delete affected rows: " + affectedRows);
+    assert.ok(affectedRows > 0, "删除测试失败");
+}
+```
