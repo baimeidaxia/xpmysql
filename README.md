@@ -74,7 +74,7 @@ async function selectList() {
 #### 插入
 ```javascript
 async function insert() {
-    let id = await userRepository.insert("insert into user(name, age) values(:name,:age)", {
+    let id = await repository.insert("insert into user(name, age) values(:name,:age)", {
         name: "张三",
         age: 30
     });
@@ -86,7 +86,7 @@ async function insert() {
 #### 修改
 ```javascript
 async function update() {
-    let affectedRows = await userRepository.update("update user set age=:age where name=:name", {
+    let affectedRows = await repository.update("update user set age=:age where name=:name", {
         name: "张三",
         age: 40
     });
@@ -98,7 +98,7 @@ async function update() {
 #### 删除
 ```javascript
 async function remove() {
-    let affectedRows = await userRepository.delete("delete from user where name=:name", {
+    let affectedRows = await repository.delete("delete from user where name=:name", {
         name: "张三"
     });
     console.log("Got delete affected rows: " + affectedRows);
