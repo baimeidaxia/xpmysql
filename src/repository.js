@@ -1,6 +1,6 @@
 let db = require('./db');
 
-module.exports = class Repository {
+class Repository {
 
     constructor(tableName, primaryKey, mappings) {
         this.tableName = tableName;
@@ -138,3 +138,5 @@ module.exports = class Repository {
     }
 
 }
+
+module.exports = Repository;
