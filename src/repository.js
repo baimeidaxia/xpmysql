@@ -49,7 +49,6 @@ class Repository {
             values["limit"] = paging.size;
         }
 
-        console.log(sql, values);
         return await this.selectList(sql, values);
     }
 
