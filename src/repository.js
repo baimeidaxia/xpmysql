@@ -28,7 +28,7 @@ class Repository {
         let values = {table: this.tableName};
 
         if (params !== undefined) {
-            sql += " where "
+            sql += " where ";
             let fields = Object.keys(params);
             for (let i = 0; i < fields.length; i++) {
                 let field = fields[i];

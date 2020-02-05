@@ -1,4 +1,5 @@
 let PoolConnection = require('mysql/lib/PoolConnection');
+let logger = require("./logger");
 
 function convertResult(res, mappings) {
     if (res === undefined || mappings === undefined) {
@@ -28,7 +29,7 @@ PoolConnection.prototype.execute = function (sql, params, mappings) {
             if (error) throw error;
             resolve(convertResult(results, mappings));
         });
-        console.log("Print sql statement: " + query.sql);
+        logger.debug("Print sql statement: " + query.sql);
     })
 };
 
@@ -41,7 +42,7 @@ PoolConnection.prototype.insert = function (sql, params) {
             if (error) throw error;
             resolve(results.insertId);
         });
-        console.log("Print sql statement: " + query.sql);
+        logger.debug("Print sql statement: " + query.sql);
     })
 };
 
@@ -54,7 +55,7 @@ PoolConnection.prototype.update = function (sql, params) {
             if (error) throw error;
             resolve(results.affectedRows);
         });
-        console.log("Print sql statement: " + query.sql);
+        logger.debug("Print sql statement: " + query.sql);
     })
 };
 
@@ -67,7 +68,7 @@ PoolConnection.prototype.delete = function (sql, params) {
             if (error) throw error;
             resolve(results.affectedRows);
         });
-        console.log("Print sql statement: " + query.sql);
+        logger.debug("Print sql statement: " + query.sql);
     })
 };
 
