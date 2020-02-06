@@ -1,16 +1,25 @@
 {
-    "name": "xpmysql",
-    "version": "1.0.0",
-    "description": "",
-    "main": "inde.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "baimeidaxia",
-    "license": "ISC",
-    "dependencies": {
-        "log4js": "^6.1.1",
-        "mysql": "^2.18.1"
-    }
+  "name": "xpmysql",
+  "version": "1.0.0",
+  "description": "一个用于操作Mysql的辅助类库",
+  "main": "inde.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "baimeidaxia",
+  "license": "MIT",
+  "dependencies": {
+    "log4js": "6.1.1",
+    "mysql": "2.18.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baimeidaxia/xpmysql"
+  },
+  "files": [
+    "src/",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ]
 }
