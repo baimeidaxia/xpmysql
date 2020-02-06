@@ -22,7 +22,7 @@ class Repository {
      * @param order : string, 排序条件, 例如: id desc, name asc
      * @param paging : object, 分页条件, 例如: {page:1, size:10}
      */
-    async selectListSimple({params, order, paging}) {
+    async selectListSimple({params, order, paging} = {}) {
 
         let sql = "select * from ::table";
         let values = {table: this.tableName};
