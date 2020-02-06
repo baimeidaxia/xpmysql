@@ -3,9 +3,9 @@ let db = require('./db');
 class Repository {
 
     constructor(tableName, primaryKey, mappings) {
-        this.tableName = tableName;
         this.primaryKey = primaryKey;
         this.mappings = mappings;
+        this._tableName = tableName;
     }
 
     async connection() {
@@ -134,6 +134,10 @@ class Repository {
         } finally {
             conn.release();
         }
+    }
+
+    get tableName() {
+        return this._tableName;
     }
 
 }

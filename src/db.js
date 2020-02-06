@@ -23,19 +23,15 @@ class DB {
         this.pool = mysql.createPool(dbConnectionConfig);
         // 从池中获取连接时，池将发出获取事件。在对连接执行了所有获取活动之后，即在将连接交给获取代码的回调之前，调用此函数。
         this.pool.on("acquire", connection => {
-            logger.debug('Connection %d acquired', connection.threadId);
+            logger.debug('Thread %s - connection acquired', connection.threadId);
         });
         // 当在池中建立新连接时，池将发出连接事件。如果在使用连接之前需要在连接上设置会话变量，则可以侦听连接事件。
         this.pool.on("connection", connection => {
-            logger.debug('Connection %d connection', connection.threadId);
-        })
-        // 当回调排队等待可用连接时，池将发出排队事件。
-        this.pool.on("enqueue", err => {
-            logger.debug('Waiting for available connection slot');
+            logger.debug('Thread %s - connection', connection.threadId);
         })
         // 释放链接调用
         this.pool.on("release", connection => {
-            logger.debug('Connection %d released', connection.threadId);
+            logger.debug('Thread %s - connection released', connection.threadId);
         })
     }
 

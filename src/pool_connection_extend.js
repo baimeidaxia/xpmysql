@@ -29,7 +29,7 @@ PoolConnection.prototype.execute = function (sql, params, mappings) {
             if (error) throw error;
             resolve(convertResult(results, mappings));
         });
-        logger.debug("Print sql statement: " + query.sql);
+        logger.debug("Thread %s - Print sql statement: %s", this.threadId, query.sql);
     })
 };
 
@@ -42,7 +42,7 @@ PoolConnection.prototype.insert = function (sql, params) {
             if (error) throw error;
             resolve(results.insertId);
         });
-        logger.debug("Print sql statement: " + query.sql);
+        logger.debug("Thread %s - Print sql statement: %s", this.threadId, query.sql);
     })
 };
 
@@ -55,7 +55,7 @@ PoolConnection.prototype.update = function (sql, params) {
             if (error) throw error;
             resolve(results.affectedRows);
         });
-        logger.debug("Print sql statement: " + query.sql);
+        logger.debug("Thread %s - Print sql statement: %s", this.threadId, query.sql);
     })
 };
 
@@ -68,7 +68,7 @@ PoolConnection.prototype.delete = function (sql, params) {
             if (error) throw error;
             resolve(results.affectedRows);
         });
-        logger.debug("Print sql statement: " + query.sql);
+        logger.debug("Thread %s - Print sql statement: %s", this.threadId, query.sql);
     })
 };
 
