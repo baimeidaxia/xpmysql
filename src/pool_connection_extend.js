@@ -19,6 +19,18 @@ function convertResult(res, mappings) {
     return res;
 }
 
+function convertParams(res, mappings) {
+
+}
+
+function swapKeysValues() {
+    let ret = {};
+    for(const key in mappings){
+        ret[mappings[key]] = key;
+    }
+    return ret;
+}
+
 PoolConnection.prototype.execute = function (sql, params, mappings) {
     return new Promise(resolve => {
         let query = this.query({
@@ -32,7 +44,7 @@ PoolConnection.prototype.execute = function (sql, params, mappings) {
     })
 };
 
-PoolConnection.prototype.insert = function (sql, params) {
+PoolConnection.prototype.insert = function (sql, params, mappings) {
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,
@@ -45,7 +57,7 @@ PoolConnection.prototype.insert = function (sql, params) {
     })
 };
 
-PoolConnection.prototype.update = function (sql, params) {
+PoolConnection.prototype.update = function (sql, params, mappings) {
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,
@@ -58,7 +70,7 @@ PoolConnection.prototype.update = function (sql, params) {
     })
 };
 
-PoolConnection.prototype.delete = function (sql, params) {
+PoolConnection.prototype.delete = function (sql, params, mappings) {
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,

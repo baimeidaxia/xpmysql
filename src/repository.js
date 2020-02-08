@@ -95,7 +95,7 @@ class Repository {
     async insert(sql, params) {
         let conn = await db.connection();
         try {
-            return await conn.insert(sql, params);
+            return await conn.insert(sql, params, this.mappings);
         } catch (e) {
             throw e;
         } finally {
@@ -112,7 +112,7 @@ class Repository {
     async update(sql, params) {
         let conn = await db.connection();
         try {
-            return await conn.update(sql, params);
+            return await conn.update(sql, params, this.mappings);
         } catch (e) {
             throw e;
         } finally {
@@ -129,7 +129,7 @@ class Repository {
     async delete(sql, params) {
         let conn = await db.connection();
         try {
-            return await conn.delete(sql, params);
+            return await conn.delete(sql, params, this.mappings);
         } catch (e) {
             throw e;
         } finally {
