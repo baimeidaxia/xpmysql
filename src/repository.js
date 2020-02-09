@@ -103,6 +103,22 @@ class Repository {
         }
     }
 
+    async createItem(params) {
+        const query = `INSERT INTO ?? SET ?;`;
+        return await this.insert(query, [this.tableName, params]);
+    }
+
+    async updateItem(params) {
+        const id = params.this.primaryKey;
+        const query = `UPDATE ?? SET ? WHERE ?? = ?;`;
+        return await this.update(query, [this.tableName, params, this.primaryKey, id]);
+    }
+
+    async deleteByID(id) {
+        const query = `DELETE ?? WHERE ?? = ?;`;
+        return await this.delete(query, [this.tableName, this.primaryKey, id]);
+    }
+
     /**
      * 更新记录，不支持事务
      * @param sql SQL语句
