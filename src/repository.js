@@ -2,6 +2,33 @@ let db = require('./db');
 
 class Repository {
 
+    convertParams(res, mappings) {
+        paramMappings = this.swapKeysValues(mappings);
+        if (res === undefined || mappings === undefined) {
+            return res;
+        }
+        
+        let item = res;
+        let objKeys = Object.keys(item);
+        let mappingKeys = Object.keys(mappings);
+        for (let j = 0; j < objKeys.length; j++) {
+            let sourceKey = objKeys[j];
+            if (mappingKeys.includes(sourceKey)) {
+                item[mappings[sourceKey]] = item[sourceKey];
+                delete item[sourceKey];
+            }
+        }
+        return res;
+    }
+    
+    swapKeysValues(mappings) {
+        let ret = {};
+        for(const key in mappings){
+            ret[mappings[key]] = key;
+        }
+        return ret;
+    }
+
     constructor(tableName, primaryKey, mappings) {
         this.primaryKey = primaryKey;
         this.mappings = mappings;
@@ -26,6 +53,8 @@ class Repository {
 
         let sql = "select * from ::table";
         let values = {table: this.tableName};
+
+        params = this.convertParams(params, this.mappings);
 
         if (params !== undefined) {
             sql += " where ";
@@ -85,29 +114,14 @@ class Repository {
         }
     }
 
-    /**
-     * 插入记录，不支持事务
-     * @param sql SQL语句
-     * @param params SQL参数
-     * @returns 主键ID
-     */
-    async insert(sql, params) {
-        let conn = await db.connection();
-        try {
-            return await conn.insert(sql, params, this.mappings);
-        } catch (e) {
-            throw e;
-        } finally {
-            conn.release();
-        }
-    }
-
     async createItem(params) {
+        params = this.convertParams(params, this.mappings);
         const query = `INSERT INTO ?? SET ?;`;
         return await this.insert(query, [this.tableName, params]);
     }
 
     async updateItem(params) {
+        params = this.convertParams(params, this.mappings);
         const id = params.this.primaryKey;
         const query = `UPDATE ?? SET ? WHERE ?? = ?;`;
         return await this.update(query, [this.tableName, params, this.primaryKey, id]);
@@ -119,6 +133,23 @@ class Repository {
     }
 
     /**
+     * 插入记录，不支持事务
+     * @param sql SQL语句
+     * @param params SQL参数
+     * @returns 主键ID
+     */
+    async insert(sql, params) {
+        let conn = await db.connection();
+        try {
+            return await conn.insert(sql, params);
+        } catch (e) {
+            throw e;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
      * 更新记录，不支持事务
      * @param sql SQL语句
      * @param params SQL参数
@@ -127,7 +158,7 @@ class Repository {
     async update(sql, params) {
         let conn = await db.connection();
         try {
-            return await conn.update(sql, params, this.mappings);
+            return await conn.update(sql, params);
         } catch (e) {
             throw e;
         } finally {
@@ -144,7 +175,7 @@ class Repository {
     async delete(sql, params) {
         let conn = await db.connection();
         try {
-            return await conn.delete(sql, params, this.mappings);
+            return await conn.delete(sql, params);
         } catch (e) {
             throw e;
         } finally {

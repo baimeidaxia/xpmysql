@@ -20,35 +20,7 @@ function convertResult(res, mappings) {
     return res;
 }
 
-function convertParams(res, mappings) {
-    paramMappings = swapKeysValues(mappings);
-    if (res === undefined || mappings === undefined) {
-        return res;
-    }
-    
-    let item = res;
-    let objKeys = Object.keys(item);
-    let mappingKeys = Object.keys(mappings);
-    for (let j = 0; j < objKeys.length; j++) {
-        let sourceKey = objKeys[j];
-        if (mappingKeys.includes(sourceKey)) {
-            item[mappings[sourceKey]] = item[sourceKey];
-            delete item[sourceKey];
-        }
-    }
-    return res;
-}
-
-function swapKeysValues(mappings) {
-    let ret = {};
-    for(const key in mappings){
-        ret[mappings[key]] = key;
-    }
-    return ret;
-}
-
 PoolConnection.prototype.execute = function (sql, params, mappings) {
-    params = convertParams(params, mappings);
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,
@@ -61,8 +33,7 @@ PoolConnection.prototype.execute = function (sql, params, mappings) {
     })
 };
 
-PoolConnection.prototype.insert = function (sql, params, mappings) {
-    params = convertParams(params, mappings);
+PoolConnection.prototype.insert = function (sql, params) {
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,
@@ -75,8 +46,7 @@ PoolConnection.prototype.insert = function (sql, params, mappings) {
     })
 };
 
-PoolConnection.prototype.update = function (sql, params, mappings) {
-    params = convertParams(params, mappings);
+PoolConnection.prototype.update = function (sql, params) {
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,
@@ -89,8 +59,7 @@ PoolConnection.prototype.update = function (sql, params, mappings) {
     })
 };
 
-PoolConnection.prototype.delete = function (sql, params, mappings) {
-    params = convertParams(params, mappings);
+PoolConnection.prototype.delete = function (sql, params) {
     return new Promise(resolve => {
         let query = this.query({
             sql: sql,
