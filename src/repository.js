@@ -3,9 +3,9 @@ let db = require('./db');
 class Repository {
 
     constructor(tableName, primaryKey, mappings) {
-        this.tableName = tableName;
         this.primaryKey = primaryKey;
         this.mappings = mappings;
+        this._tableName = tableName;
     }
 
     async connection() {
@@ -22,13 +22,13 @@ class Repository {
      * @param order : string, 排序条件, 例如: id desc, name asc
      * @param paging : object, 分页条件, 例如: {page:1, size:10}
      */
-    async selectListSimple({params, order, paging}) {
+    async selectListSimple({params, order, paging} = {}) {
 
         let sql = "select * from ::table";
         let values = {table: this.tableName};
 
         if (params !== undefined) {
-            sql += " where "
+            sql += " where ";
             let fields = Object.keys(params);
             for (let i = 0; i < fields.length; i++) {
                 let field = fields[i];
@@ -49,7 +49,6 @@ class Repository {
             values["limit"] = paging.size;
         }
 
-        console.log(sql, values);
         return await this.selectList(sql, values);
     }
 
@@ -151,6 +150,10 @@ class Repository {
         } finally {
             conn.release();
         }
+    }
+
+    get tableName() {
+        return this._tableName;
     }
 
 }
