@@ -121,7 +121,7 @@ class Repository {
 
     async updateItem(params) {
         params = this.convertParams(params, this.mappings);
-        const id = params.this.primaryKey;
+        const id = params[this.primaryKey];
         const query = `UPDATE ?? SET ? WHERE ?? = ?;`;
         return await this.update(query, [this.tableName, params, this.primaryKey, id]);
     }
