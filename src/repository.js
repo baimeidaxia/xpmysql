@@ -3,18 +3,17 @@ let db = require('./db');
 class Repository {
 
     convertParams(res, mappings) {
-        paramMappings = this.swapKeysValues(mappings);
         if (res === undefined || mappings === undefined) {
             return res;
         }
-        
+        const paramMappings = this.swapKeysValues(mappings);
         let item = res;
         let objKeys = Object.keys(item);
-        let mappingKeys = Object.keys(mappings);
+        let mappingKeys = Object.keys(paramMappings);
         for (let j = 0; j < objKeys.length; j++) {
             let sourceKey = objKeys[j];
             if (mappingKeys.includes(sourceKey)) {
-                item[mappings[sourceKey]] = item[sourceKey];
+                item[paramMappings[sourceKey]] = item[sourceKey];
                 delete item[sourceKey];
             }
         }
